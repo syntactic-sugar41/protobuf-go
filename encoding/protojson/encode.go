@@ -64,6 +64,9 @@ type MarshalOptions struct {
 	// UseEnumNumbers emits enum values as numbers.
 	UseEnumNumbers bool
 
+	// Enum formatter
+	EnumFormatter func(descriptor pref.FieldDescriptor, value pref.Value) string
+
 	// EmitUnpopulated specifies whether to emit unpopulated fields. It does not
 	// emit unpopulated oneof fields or unpopulated extension fields.
 	// The JSON value emitted for unpopulated fields are as follows:
@@ -276,7 +279,8 @@ func (e encoder) marshalSingular(val pref.Value, fd pref.FieldDescriptor) error 
 			if e.opts.UseEnumNumbers || desc == nil {
 				e.WriteInt(int64(val.Enum()))
 			} else {
-				e.WriteString(string(desc.Name()))
+				s := e.opts.EnumFormatter(fd, val)
+				e.WriteString(s)
 			}
 		}
 
