@@ -1,6 +1,7 @@
 /.cache/
 /.gocache/
 /bin/
+.idea
 /vendor/
 
 # This file includes artifacts of the system test that should not be checked in.
